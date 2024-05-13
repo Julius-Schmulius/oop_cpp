@@ -23,7 +23,7 @@ void normalizeFraction(long long int &numerator, long long int &denominator) {
     denominator = denominator / g;
 }
 
-int getIntegerInput(const std::string& prompt) {
+long long int getIntegerInput(const std::string& prompt) {
     long long int value;
     while (true) {
         std::cout << prompt;
@@ -39,20 +39,20 @@ int getIntegerInput(const std::string& prompt) {
         // } else {
         //     break;
         }
-    for (int i = 0; i < prompt.length(); i++){
-        if (prompt[i] >= '0' && prompt[i] <= '9'){  //check for ASCII values between 48 and 57
-            if (value > (INT_MAX - (prompt[i] - '0') )/10){ //check for overflow
-                std::cout << "Error: Integer value too large.\n";
-                return -1;
+    for (int i = 0; i < value.length(); i++){
+        if (value[i] >= '0' && value[i] <= '9'){  //check for ASCII values between 48 and 57
+            if (value > (INT_MAX - (value[i] - '0') )/10){ //check for overflow TODO: adjust for LONG LONG INT
+                std::cout << "Error: Integer value too large." << std::endl;
+                return getIntegerInput(const std::string& prompt);
             }
-            value = value * 10 + prompt[i] - '0'; // Horner's method and conversion to integer
+            value = value * 10 + value[i] - '0'; // Horner's method and conversion to integer
 
-            if ((!std::isdigit(prompt[i+1]) & (prompt[i+1] != ' ') & !(i == prompt.length()-1))){ // exclude non-digit, non-space characters next to a digit
+            if ((!std::isdigit(value[i+1]) & (value[i+1] != ' ') & !(i == value.length()-1))){ // exclude non-digit, non-space characters next to a digit
                 std::cout << "Error: Invalid input.\n";
-                return -1;
+                return getIntegerInput(const std::string& prompt);
             }
         }
-        if ((prompt[i] == ' ') || i == prompt.length()-1){ //check for spaces and end of string
+        if ((value[i] == ' ') || i == value.length()-1){ //check for spaces and end of string
             return value;
         }
     
@@ -61,7 +61,7 @@ int getIntegerInput(const std::string& prompt) {
 }
 
 int main() {
-    long long int numerator, denominator;
+    //long long int numerator, denominator;
     
     std::cout << "Enter x to exit\n";
     
