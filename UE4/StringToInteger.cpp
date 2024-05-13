@@ -2,6 +2,7 @@
 #include <string>
 #include <limits>
 #include <algorithm>
+#include <climits>
 
 int convert(const std::string &s);
 
@@ -35,21 +36,18 @@ int convert(const std::string &s){ //const ?
     }));
 
     if (s1.empty() || !std::isdigit(s1[0])){
-        std::cout << "Error: String gotta start with a number.\n";
+        std::cout << "Error: String gotta start with a number and mustn't be empty.\n";
         return -1;
     }
-    else if (s1.length() > INT_MAX){
-        std::cout << "Error: String too long.\n";
-        return -1;
-    }
-
+    
     for (int i = 0; i < s1.length(); i++){
         if (s1[i] >= '0' && s1[i] <= '9'){  //check for ASCII values between 48 and 57
-            result = result * 10 + s1[i] - '0'; // Horner's method
             if (result > (INT_MAX - (s1[i] - '0') )/10){ //check for overflow
                 std::cout << "Error: Integer value too large.\n";
                 return -1;
             }
+            result = result * 10 + s1[i] - '0'; // Horner's method and conversion to integer
+
             if ((!std::isdigit(s1[i+1]) & (s1[i+1] != ' ') & !(i == s1.length()-1))){ // exclude non-digit, non-space characters next to a digit
                 std::cout << "Error: Invalid input.\n";
                 return -1;
