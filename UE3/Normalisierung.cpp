@@ -25,6 +25,7 @@ void normalizeFraction(long long int &numerator, long long int &denominator) {
 
 long long int getIntegerInput(const std::string& prompt) {
     std::string value;
+	long long int result = 0;
     while (true) {
         std::cout << prompt;
         std::cin >> value;
@@ -41,11 +42,11 @@ long long int getIntegerInput(const std::string& prompt) {
         }
     for (int i = 0; i < value.length(); i++){
         if (value[i] >= '0' && value[i] <= '9'){  //check for ASCII values between 48 and 57
-            if (value > (LLONG_MAX - (value[i] - '0') )/10){ //check for overflow // std::stoll(value) ??
+            if (result > (LLONG_MAX - (value[i] - '0') )/10){ //check for overflow
                 std::cout << "Error: Integer value too large." << std::endl;
                 return getIntegerInput(const std::string& prompt);
             }
-            value = value * 10 + value[i] - '0'; // Horner's method and conversion to integer
+            result = result * 10 + value[i] - '0'; // Horner's method and conversion to integer
 
             if ((!std::isdigit(value[i+1]) & (value[i+1] != ' ') & !(i == value.length()-1))){ // exclude non-digit, non-space characters next to a digit
                 std::cout << "Error: Invalid input.\n";
@@ -53,11 +54,11 @@ long long int getIntegerInput(const std::string& prompt) {
             }
         }
         if ((value[i] == ' ') || i == value.length()-1){ //check for spaces and end of string
-            return std::stoll(value);
+            return result;
         }
     
     }
-    return std::stoll(value);
+    return result;
 }
 
 int main() {
