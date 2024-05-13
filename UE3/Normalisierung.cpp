@@ -1,4 +1,7 @@
 #include <iostream>
+#include <string>
+#include <limits>
+#include <climits>
 
 //Greatest Common Divider
 int gcd(long long int a, long long int b) {
@@ -20,28 +23,51 @@ void normalizeFraction(long long int &numerator, long long int &denominator) {
     denominator = denominator / g;
 }
 
+int getIntegerInput(const std::string& prompt) {
+    long long int value;
+    while (true) {
+        std::cout << prompt;
+        std::cin >> value;
+        std::to_string(value);
+        if (value == 'x' || value == 'X') {
+            return 0;
+        }
+        // if (std::cin.fail()) {
+        //     std::cin.clear();
+        //     std::cin.ignore(10000, '\n');
+        //     std::cout << "Invalid input. Please enter an integer.\n";
+        // } else {
+        //     break;
+        }
+    for (int i = 0; i < prompt.length(); i++){
+        if (prompt[i] >= '0' && prompt[i] <= '9'){  //check for ASCII values between 48 and 57
+            if (value > (INT_MAX - (prompt[i] - '0') )/10){ //check for overflow
+                std::cout << "Error: Integer value too large.\n";
+                return -1;
+            }
+            value = value * 10 + prompt[i] - '0'; // Horner's method and conversion to integer
+
+            if ((!std::isdigit(prompt[i+1]) & (prompt[i+1] != ' ') & !(i == prompt.length()-1))){ // exclude non-digit, non-space characters next to a digit
+                std::cout << "Error: Invalid input.\n";
+                return -1;
+            }
+        }
+        if ((prompt[i] == ' ') || i == prompt.length()-1){ //check for spaces and end of string
+            return value;
+        }
+    
+    }
+    return value;
+}
+
 int main() {
     long long int numerator, denominator;
     
+    std::cout << "Enter x to exit\n";
+    
     while (true) {
-        std::cout << "Enter x to exit\n";
-        std::cout << "Enter numerator: ";
-        std::cin >> numerator;
-
-        if (std::cin.fail()) {
-            std::cin.clear();
-            std::cin.ignore(10000, '\n');
-            std::cout << "Invalid input. Please enter an integer.\n";
-            continue;
-        }
-        std::cout << "Enter denominator: ";
-        std::cin >> denominator;
-        if (std::cin.fail()) {
-            std::cin.clear();
-            std::cin.ignore(10000, '\n');
-            std::cout << "Invalid input. Please enter an integer.\n";
-            continue;
-        }
+        long long int numerator = getIntegerInput("Enter numerator: ");
+        long long int denominator = getIntegerInput("Enter denominator: ");
         
         std::cout << "Greatest Common Divider: " << gcd(numerator, denominator) << "\n";
         normalizeFraction(numerator, denominator);
