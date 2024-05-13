@@ -24,11 +24,11 @@ void normalizeFraction(long long int &numerator, long long int &denominator) {
 }
 
 long long int getIntegerInput(const std::string& prompt) {
-    long long int value;
+    std::string value;
     while (true) {
         std::cout << prompt;
         std::cin >> value;
-        std::to_string(value);
+        //std::to_string(value);
         if (value == 'x' || value == 'X') {
             return 0;
         }
@@ -41,7 +41,7 @@ long long int getIntegerInput(const std::string& prompt) {
         }
     for (int i = 0; i < value.length(); i++){
         if (value[i] >= '0' && value[i] <= '9'){  //check for ASCII values between 48 and 57
-            if (value > (LLONG_MAX - (value[i] - '0') )/10){ //check for overflow
+            if (value > (LLONG_MAX - (value[i] - '0') )/10){ //check for overflow // std::stoll(value) ??
                 std::cout << "Error: Integer value too large." << std::endl;
                 return getIntegerInput(const std::string& prompt);
             }
@@ -53,11 +53,11 @@ long long int getIntegerInput(const std::string& prompt) {
             }
         }
         if ((value[i] == ' ') || i == value.length()-1){ //check for spaces and end of string
-            return value;
+            return std::stoll(value);
         }
     
     }
-    return value;
+    return std::stoll(value);
 }
 
 int main() {
