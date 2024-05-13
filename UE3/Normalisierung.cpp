@@ -41,7 +41,7 @@ long long int getIntegerInput(const std::string& prompt) {
         }
     for (int i = 0; i < value.length(); i++){
         if (value[i] >= '0' && value[i] <= '9'){  //check for ASCII values between 48 and 57
-            if (value > (INT_MAX - (value[i] - '0') )/10){ //check for overflow TODO: adjust for LONG LONG INT
+            if (value > (LLONG_MAX - (value[i] - '0') )/10){ //check for overflow
                 std::cout << "Error: Integer value too large." << std::endl;
                 return getIntegerInput(const std::string& prompt);
             }
