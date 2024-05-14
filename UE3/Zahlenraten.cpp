@@ -8,45 +8,37 @@ bool askQuestion(const std::string& question) {
     std::string answer;
     std::getline(std::cin, answer);
     std::transform(answer.begin(), answer.end(), answer.begin(), ::tolower); //lowercase
-    return answer == "ja" || answer == "yes" || answer == "y" || answer == "j" || answer == ":)";
+    return answer == "J" || answer == "Y" || answer == "y" || answer == "j" || answer == ":)";
+}
+
+int getLimit(const std::string& prompt) {
+    std::string input;
+    int limit;
+
+    while (true) {
+        std::cout << prompt;
+        std::getline(std::cin, input);
+        input.erase(std::remove(input.begin(), input.end(), ' '), input.end());
+        std::stringstream ss(input);
+        if (!(ss >> limit) || !ss.eof()) {
+            std::cout << "Invalid input. Please enter a valid integer.\n";
+        } else {
+            break;
+        }
+    }
+
+    return limit;
 }
 
 int main() {
-    int lower, upper;
-    std::string input;
-    
-    std::cout << "Enter the lower limit: ";
-    std::getline(std::cin, input);
-    input.erase(std::remove(input.begin(), input.end(), ' '), input.end());
-    std::stringstream(input) >> lower;
-    //printf("lower: %d\n", lower);
-    if (std::cin.fail()) {
-            std::cin.clear();
-            std::cin.ignore(10000, '\n');
-            std::cout << "Invalid input. Please enter an integer.\n";
-            return 0;
-    }
-    //std::cin.ignore(); // Ignore the newline character left in the buffer
-    
-    std::cout << "Enter the upper limit: ";
-    std::getline(std::cin, input);
-    input.erase(std::remove(input.begin(), input.end(), ' '), input.end());
-    std::stringstream(input) >> upper;
-    //printf("upper: %d\n", upper);
-    if (std::cin.fail()) {
-            std::cin.clear();
-            std::cin.ignore(10000, '\n');
-            std::cout << "Invalid input. Please enter an integer.\n";
-            return 0;
-    }
-    //std::cin.ignore();
+    int lower = getLimit("Enter the lower limit: ");
+    int upper = getLimit("Enter the upper limit: ");
     
     if (lower >= upper) {
-        std::cout << "Error: Check if Upper > Lower. Characters get initialized with value 0." << std::endl;
-        //system("start https://www.youtube.com/watch?v=o3uJCCa5w2A&list=PLmdw-4ZJnEADc41ZC6RG0UbnGQ9dMDiOT&index=35");
+        std::cout << "Error: Upper limit must be bigger than Lower limit." << std::endl;
         return 0;
     }
-
+    std::cout << "Enter j / y for yes." << std::endl;
     while (lower < upper) {
         int mid = lower + (upper - lower) / 2;
         if (askQuestion("Is the number greater than " + std::to_string(mid) + "?")) {

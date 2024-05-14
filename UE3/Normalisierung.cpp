@@ -2,6 +2,7 @@
 #include <string>
 #include <limits>
 #include <climits>
+#include <sstream>
 
 //Greatest Common Divider
 int gcd(long long int a, long long int b) {
@@ -28,48 +29,35 @@ long long int getIntegerInput(const std::string& prompt) {
 	long long int result = 0;
     while (true) {
         std::cout << prompt;
-        std::cin >> value;
-        //std::to_string(value);
-        if (value == 'x' || value == 'X') {
-            return 0;
+        std::getline (std::cin, value);
+        if (value == "x" || value == "X") {
+            std::exit(0);
         }
-        // if (std::cin.fail()) {
-        //     std::cin.clear();
-        //     std::cin.ignore(10000, '\n');
-        //     std::cout << "Invalid input. Please enter an integer.\n";
-        // } else {
-        //     break;
+        std::stringstream ss(value);
+        if (!(ss >> result) || !ss.eof()) { // check if input can be stored in result / File End
+            std::cout << "Invalid input. Please enter an integer.\n";
+        } else {
+            break;
         }
-    for (int i = 0; i < value.length(); i++){
-        if (value[i] >= '0' && value[i] <= '9'){  //check for ASCII values between 48 and 57
-            if (result > (LLONG_MAX - (value[i] - '0') )/10){ //check for overflow
-                std::cout << "Error: Integer value too large." << std::endl;
-                return getIntegerInput(const std::string& prompt);
-            }
-            result = result * 10 + value[i] - '0'; // Horner's method and conversion to integer
-
-            if ((!std::isdigit(value[i+1]) & (value[i+1] != ' ') & !(i == value.length()-1))){ // exclude non-digit, non-space characters next to a digit
-                std::cout << "Error: Invalid input.\n";
-                return getIntegerInput(const std::string& prompt);
-            }
-        }
-        if ((value[i] == ' ') || i == value.length()-1){ //check for spaces and end of string
-            return result;
-        }
-    
     }
     return result;
 }
 
 int main() {
-    //long long int numerator, denominator;
-    
-    std::cout << "Enter x to exit\n";
+
+    std::cout << "Enter x to exit." << std::endl;
     
     while (true) {
         long long int numerator = getIntegerInput("Enter numerator: ");
         long long int denominator = getIntegerInput("Enter denominator: ");
-        
+        if (denominator == 0) {
+            std::cout << "Error: Division by zero." << std::endl;
+            continue;
+        } else if (numerator == 0) {
+            std::cout << "Normalized fraction: 0" << std::endl;
+            continue;
+        }
+
         std::cout << "Greatest Common Divider: " << gcd(numerator, denominator) << "\n";
         normalizeFraction(numerator, denominator);
         std::cout << "Normalized fraction: " << numerator << "/" << denominator << "\n";
