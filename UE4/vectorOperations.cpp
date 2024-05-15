@@ -24,7 +24,6 @@ bool allPositive(const std::vector<double> &v){
 double product(const std::vector<double> &v1, const std::vector<double> &v2){
     double product = 0;
     for (std::size_t i = 0; i < v1.size(); i++)
-        for (int i = 0; i < v2.size(); i++)
             product = product + (v1[i])*(v2[i]);
     return product;
 }
