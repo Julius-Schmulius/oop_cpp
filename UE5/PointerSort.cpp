@@ -58,7 +58,7 @@ int main() {
         words = randomWords();
     }
     else {
-        words = {"  BicMac","Whopper  ","large Fries", "large fries","20","9 9","-1","-a","-A"};
+        words = {"  BicMac","Whopper  ","large Fries", "large fries","20","9 9","-1","-abc"};
         //leading and trailing whitespaces get ignored //sorted character wise by ASCII values 
     }
 
