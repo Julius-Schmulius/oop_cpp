@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#define USE_RANDOM 0
 
 std::vector<std::string*> assign (std::vector<std::string> words) {
     std::vector<std::string*> pointers;
