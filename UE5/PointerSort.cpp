@@ -3,10 +3,11 @@
 #include <vector>
 #include <algorithm>
 
-std::vector<std::string*> assign (std::vector<std::string> words) {
+std::vector<std::string*> assign (std::vector<std::string>& words) { // pass as reference
     std::vector<std::string*> pointers;
     for (int i = 0; i < words.size(); i++) {
-        pointers.push_back(new std::string(words[i]));
+        pointers.push_back(&words[i]); // pass as reference
+        //Problem was here: trying to store pointers to local variables that were destroyed once the function ended
     }
     return pointers;
 }
@@ -26,7 +27,7 @@ std::vector<std::string> randomWords() {
     return words;
 }
 
-void quickSort(std::vector<std::string*>& pointers, int low, int high) {
+void quickSort(std::vector<std::string*>& pointers, int low, int high) { //works as intended
     auto partition = [&](int low, int high) {
         std::string* pivot = pointers[high];
         int i = (low - 1);
@@ -51,7 +52,7 @@ void quickSort(std::vector<std::string*>& pointers, int low, int high) {
 }
 
 int main() {
-    bool useRandom = 0; //toggle for random generated Strings
+    bool useRandom = 1; //toggle for random generated Strings
     std::vector<std::string> words;
     if (useRandom) {
         words = randomWords();
@@ -68,9 +69,9 @@ int main() {
         std::cout << *pointers[i] << std::endl;
     }
 
-    for (int i = 0; i < pointers.size(); i++) {
-        delete pointers[i];
-    }
+    // for (int i = 0; i < pointers.size(); i++) {   //cant delete Pointers not created by new
+    //     delete pointers[i];
+    // }
 
     return 0;
 }
