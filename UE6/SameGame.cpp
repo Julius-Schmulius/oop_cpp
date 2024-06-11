@@ -131,12 +131,12 @@ std::pair<int, int> getMove(std::vector<std::vector<char>>& spielfeld) {
     
     //check for: length < 2, [0] is a letter, [1] is a number 
     if(input.length() < 2 || !std::isalpha(input[0]) || !std::isdigit(input[1])) {
-            std::cout << "\033[1;31m" << "Invalid input. Syntax is (letter)(number) e.g. a1, I9, ..." << "\033[0m" << std::endl;
-            //td::cout << "Invalid input. Syntax is (letter)(number) e.g. a1, I9, ..." << std::endl;
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // ignore leftover newline
-            std::cout << "Enter your move: ";
-            return getMove(spielfeld);
-    }
+    std::cout << "\033[1;31m" << "Invalid input. Syntax is (letter)(number) e.g. a1, I9, ..." << "\033[0m" << std::endl;
+    if (std::cin.rdbuf()->in_avail()) // check if there are characters left in the input buffer
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cout << "Enter your move: ";
+    return getMove(spielfeld);
+}
 
     int column = std::tolower(input[0]) - 'a'; // letter -> column index
     int row = input[1] - '1'; // number -> row index
