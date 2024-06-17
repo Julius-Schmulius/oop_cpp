@@ -23,8 +23,9 @@ public:
     virtual void inc() { 
         minuten++; 
         if(minuten > 59) { 
-            minuten -= 61; 
+            minuten -= 60; 
             hours++;
+            
             if (minuten > 59) {
                 inc();
             }
@@ -59,6 +60,9 @@ Time input() {
     std::cin >> m ;
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    if (m < 0) {
+        return input();
+    }
     result.set(h, m);
     return result;
 }
